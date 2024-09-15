@@ -1,0 +1,245 @@
+[gd_scene load_steps=15 format=3 uid="uid://cswxa2vgiomtv"]
+
+[ext_resource type="Shader" path="res://main.gdshader" id="1_cq4qn"]
+[ext_resource type="Texture2D" uid="uid://xjytbmd0obuw" path="res://res/crosshair.png" id="2_rtvpw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jsvbc"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_g3s0f"]
+sky_material = SubResource("ProceduralSkyMaterial_jsvbc")
+
+[sub_resource type="Environment" id="Environment_uefid"]
+background_mode = 2
+sky = SubResource("Sky_g3s0f")
+tonemap_mode = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_51cjb"]
+render_priority = 0
+shader = ExtResource("1_cq4qn")
+shader_parameter/grid_color = Vector4(0, 0, 0, 1)
+shader_parameter/grid_size = 20.0
+shader_parameter/cell_size = 1.0
+shader_parameter/line_width = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dkh6t"]
+lightmap_size_hint = Vector2i(102, 102)
+material = SubResource("ShaderMaterial_51cjb")
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v3u6l"]
+size = Vector3(20, 0.05, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1c0rd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lwc12"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_el8yj"]
+font_size = 25
+
+[sub_resource type="BoxMesh" id="BoxMesh_nokh3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o2iuf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gi6dl"]
+font_size = 60
+font_color = Color(1, 1, 0.027451, 1)
+
+[node name="main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_uefid")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
+mesh = SubResource("PlaneMesh_dkh6t")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+transform = Transform3D(0.999748, 0, 0, 0, 0.999748, 0, 0, 0, 0.999748, 0, 0.02, 0)
+shape = SubResource("BoxShape3D_v3u6l")
+
+[node name="MapLayout" type="MapLayout" parent="."]
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(574, 648)
+render_target_update_mode = 4
+
+[node name="Player" type="Player" parent="GridContainer/SubViewportContainer/SubViewport" groups=["PlayerGroup"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.445348, 16)
+collision_layer = 2
+
+[node name="bulletPosition" type="Node3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
+transform = Transform3D(1, 0, -1.49012e-07, 0, 1, 0, 1.49012e-07, 0, 1, 0, 0.123, -0.728)
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/SubViewportContainer/SubViewport/Player/bulletPosition"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -124.0
+offset_right = 20.0
+offset_bottom = -79.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_rtvpw")
+expand_mode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+mesh = SubResource("BoxMesh_1c0rd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+shape = SubResource("BoxShape3D_lwc12")
+
+[node name="Camera3D" type="Camera3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
+transform = Transform3D(1, 0, 0, 0, 0.915691, 0.401884, 0, -0.401884, 0.915691, 0, 1.63397, 1.93609)
+
+[node name="enemy_look" type="RayCast3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
+target_position = Vector3(0, 0, -15)
+
+[node name="helper" type="RayCast3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
+target_position = Vector3(0, 0, -15)
+debug_shape_thickness = 5
+
+[node name="Control" type="Control" parent="GridContainer/SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="GridContainer/SubViewportContainer/SubViewport/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Player
+Movement WASD
+Place Blocks G
+Shoot H"
+label_settings = SubResource("LabelSettings_el8yj")
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer2"]
+handle_input_locally = false
+size = Vector2i(574, 648)
+render_target_update_mode = 4
+
+[node name="Enemy" type="Enemy" parent="GridContainer/SubViewportContainer2/SubViewport" groups=["EnemyGroup"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4, 0.445271, 4)
+
+[node name="bulletPosition" type="Node3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
+transform = Transform3D(1, 0, -1.49012e-07, 0, 1, 0, 1.49012e-07, 0, 1, 0, 0.123, -0.728)
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy/bulletPosition"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -124.0
+offset_right = 25.0
+offset_bottom = -79.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_rtvpw")
+expand_mode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+mesh = SubResource("BoxMesh_nokh3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+shape = SubResource("BoxShape3D_o2iuf")
+
+[node name="Camera3D" type="Camera3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
+transform = Transform3D(1, 0, 0, 0, 0.915691, 0.401884, 0, -0.401884, 0.915691, 0, 1.63397, 1.93609)
+
+[node name="Control" type="Control" parent="GridContainer/SubViewportContainer2/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="GridContainer/SubViewportContainer2/SubViewport/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Enemy
+Movement UpDownRightLeft
+Place Blocks K
+Shoot L"
+label_settings = SubResource("LabelSettings_el8yj")
+
+[node name="GameOverMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.266667, 1, 0.917647, 1)
+
+[node name="Label" type="Label" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.355903
+anchor_top = 0.115741
+anchor_right = 0.639757
+anchor_bottom = 0.243827
+grow_horizontal = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_gi6dl")
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonPlay" type="ButtonPlay" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -15.5
+offset_right = 44.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Again"

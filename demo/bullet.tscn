@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvpvq25trc588"]
+
+[ext_resource type="Material" uid="uid://c68ml37ymwk04" path="res://bullet_material.tres" id="1_ulye5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_b54wx"]
+material = ExtResource("1_ulye5")
+size = Vector3(0.05, 0.05, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a5dfr"]
+size = Vector3(0.05, 0.05, 0.25)
+
+[node name="Bullet" type="Bullet"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_b54wx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_a5dfr")
