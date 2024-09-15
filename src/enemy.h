@@ -14,6 +14,8 @@
 #include <godot_cpp/classes/input_event_key.hpp>
 #include <godot_cpp/classes/input_map.hpp>
 
+#include <godot_cpp/classes/ray_cast3d.hpp>
+
 #include "bullet.h"
 #include "map_layout.h"
 
@@ -39,6 +41,9 @@ private:
 	MapLayout* map_layout = nullptr;
 
 	Node3D* bullet_pos = nullptr;
+
+	RayCast3D* player_look = nullptr;
+	RayCast3D* helper_enem = nullptr;
 	
 	Input* input = nullptr;
 	InputMap* input_map = nullptr;

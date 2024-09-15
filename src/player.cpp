@@ -5,7 +5,6 @@
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/callable.hpp>
-#include <godot_cpp/classes/mesh_instance3d.hpp>
 
 #include <godot_cpp/classes/engine.hpp>
 
@@ -159,7 +158,8 @@ void Player::_physics_process(double delta) {
         
         if (enemy_look->is_colliding()) {
             Node3D* collider = cast_to<Node3D>(enemy_look->get_collider());
-            if (collider && collider->is_class("Enemy")) {
+            if (collider && ( collider->is_class("Enemy") || 
+                (collider->get_parent()->is_class("Block") && cast_to<Block>(collider->get_parent())->get_block_owner() == Block_owner::Enemy_block))) {
                 Vector3 target_position = collider->get_global_transform().origin;
                 helper->look_at(target_position, Vector3(0, 1, 0));
                 //UtilityFunctions::print("Its colliding with enemy!!");
@@ -175,10 +175,13 @@ void Player::_physics_process(double delta) {
                 // Adjust for negative Z direction by rotating 180 degrees
                 //helper_rotation.y += Math::deg_to_rad(180.0f);
                 
-                current_rotation.y = Math::lerp_angle(current_rotation.y, helper_rotation.y , 0.15f );
+                current_rotation.y = Math::lerp_angle(current_rotation.y, helper_rotation.y , 0.03f );
                 set_rotation(current_rotation);
                 
             }
+
+            //(collider->get_parent()->is_class("Block") && cast_to<Block>(get_parent())->get_block_owner() == Block_owner::Enemy_block)
+
         } else {
             helper->set_rotation(Vector3(0, 0, 0));
             //UtilityFunctions::print("Helper Rotation set to zeros!!");

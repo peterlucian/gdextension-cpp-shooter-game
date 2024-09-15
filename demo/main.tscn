@@ -88,7 +88,7 @@ render_target_update_mode = 4
 
 [node name="Player" type="Player" parent="GridContainer/SubViewportContainer/SubViewport" groups=["PlayerGroup"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.445348, 16)
-collision_layer = 2
+collision_layer = 3
 
 [node name="bulletPosition" type="Node3D" parent="GridContainer/SubViewportContainer/SubViewport/Player"]
 transform = Transform3D(1, 0, -1.49012e-07, 0, 1, 0, 1.49012e-07, 0, 1, 0, 0.123, -0.728)
@@ -155,6 +155,7 @@ render_target_update_mode = 4
 
 [node name="Enemy" type="Enemy" parent="GridContainer/SubViewportContainer2/SubViewport" groups=["EnemyGroup"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4, 0.445271, 4)
+collision_layer = 3
 
 [node name="bulletPosition" type="Node3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
 transform = Transform3D(1, 0, -1.49012e-07, 0, 1, 0, 1.49012e-07, 0, 1, 0, 0.123, -0.728)
@@ -184,6 +185,13 @@ shape = SubResource("BoxShape3D_o2iuf")
 
 [node name="Camera3D" type="Camera3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
 transform = Transform3D(1, 0, 0, 0, 0.915691, 0.401884, 0, -0.401884, 0.915691, 0, 1.63397, 1.93609)
+
+[node name="player_look" type="RayCast3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
+target_position = Vector3(0, 0, -15)
+
+[node name="helper_enem" type="RayCast3D" parent="GridContainer/SubViewportContainer2/SubViewport/Enemy"]
+target_position = Vector3(0, 0, -15)
+debug_shape_thickness = 5
 
 [node name="Control" type="Control" parent="GridContainer/SubViewportContainer2/SubViewport"]
 layout_mode = 3

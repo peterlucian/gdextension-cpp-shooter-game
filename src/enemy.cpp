@@ -1,12 +1,19 @@
 #include "enemy.h"
 #include "bullet.h"
+#include "block.h"
 
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/callable.hpp>
+
+#include <godot_cpp/classes/engine.hpp>
+
 #include <godot_cpp/classes/input_event_key.hpp>
 #include <godot_cpp/classes/input_map.hpp>
-#include <godot_cpp/classes/engine.hpp>
+
+#include <godot_cpp/core/math.hpp> // For lerp_angle and other math functions
+#include <godot_cpp/variant/vector3.hpp>
+#include <godot_cpp/variant/transform3d.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
 
@@ -21,6 +28,9 @@ void Enemy::_bind_methods() {
 void Enemy::_ready(){
     input = Input::get_singleton();
     input_map = InputMap::get_singleton();
+
+    player_look = get_node<RayCast3D>("player_look");
+    helper_enem = get_node<RayCast3D>("helper_enem");
 
     if (!Engine::get_singleton()->is_editor_hint()) {
         UtilityFunctions::print("Running in the editor, skipping timer setup");
@@ -148,6 +158,34 @@ void Enemy::_physics_process(double delta) {
                 place_block();
             }
         }
+
+        if (player_look->is_colliding()) {
+            Node3D* collider = cast_to<Node3D>(player_look->get_collider());
+            if (collider && ( collider->is_class("Player") || 
+                (collider->get_parent()->is_class("Block") && cast_to<Block>(collider->get_parent())->get_block_owner() == Block_owner::Player_block))) {
+                Vector3 target_position = collider->get_global_transform().origin;
+                helper_enem->look_at(target_position, Vector3(0, 1, 0));
+                //UtilityFunctions::print("Its colliding with enemy!!");
+            
+                // Now, rotate the helper by 180 degrees around the Y axis to account for the negative Z direction
+                // Transform3D helper_transform = helper->get_global_transform();
+                // helper_transform.basis = helper_transform.basis.rotated(Vector3(0, 1, 0), Math::deg_to_rad(180.0f));
+                // helper->set_global_transform(helper_transform);
+
+                Vector3 current_rotation = get_global_transform().basis.get_euler();
+                Vector3 helper_rotation = helper_enem->get_global_transform().basis.get_euler();
+                
+                // Adjust for negative Z direction by rotating 180 degrees
+                //helper_rotation.y += Math::deg_to_rad(180.0f);
+                
+                current_rotation.y = Math::lerp_angle(current_rotation.y, helper_rotation.y , 0.03f );
+                set_rotation(current_rotation);     
+            }
+        } else {
+            helper_enem->set_rotation(Vector3(0, 0, 0));
+            //UtilityFunctions::print("Helper Rotation set to zeros!!");
+        }
+
         // Normalize direction and scale by speed
         velocity = velocity.normalized() * speed;
         
