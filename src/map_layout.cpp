@@ -31,8 +31,8 @@ void MapLayout::_ready()
     }
 
     m_packed_resource = resource_load->load("res://block.tscn");
-    in.open("map.dat", std::ios::binary);
-    in.read(map_layout, sizeof(map_layout));
+    //in.open("map.dat", std::ios::binary);
+    //in.read(map_layout, sizeof(map_layout));
     reset_layout();
 
     // float step = 0.0f;

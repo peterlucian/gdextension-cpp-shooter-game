@@ -1,2 +1,4 @@
 /demo/bin/libgdexample.linux.template_debug.x86_64.so
+/demo/bin/libgdexample.web.template_release.wasm32.wasm
 /godot-cpp
+/demo/web

@@ -17,11 +17,11 @@ class MapLayout : public Node3D{
 private:
     ResourceLoader* resource_load = ResourceLoader::get_singleton();
     Ref<PackedScene> m_packed_resource{};
-    char map_layout[401];
-    std::ifstream in;  
+    //char map_layout[401];
+    //std::ifstream in;  
     Node3D* block;  
     std::vector<Node3D*> level;  
-    //char map_layout[401] = "xxxxxxxxxxxxxxxxxxxxx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xxxxxxxxxxxxxxxxxxxxx";               
+    char map_layout[401] = "xxxxxxxxxxxxxxxxxxxxx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xx##################xxxxxxxxxxxxxxxxxxxxx";               
                 
                             
 protected:
