@@ -33,7 +33,7 @@ void Player::_ready(){
     enemy_look = get_node<RayCast3D>("enemy_look");
     helper = get_node<RayCast3D>("helper");
 
-
+    //adding keys
     if (!Engine::get_singleton()->is_editor_hint()) {
         UtilityFunctions::print("Running in the editor, skipping timer setup");
         if(input_map){
