@@ -80,7 +80,7 @@ void Player::take_damage()
     }
 }
 
-Player::Player() : speed(10.0f), gravity(-9.8f), rotation_speed(1.5f), hp(100) {
+Player::Player() : speed(10.0f), gravity(-9.8f), rotation_speed(1.2f), hp(100) {
     // Other initialization code if necessary
 }
 

@@ -70,7 +70,7 @@ void Enemy::take_damage()
     }
 }
 
-Enemy::Enemy() : speed(10.0f), gravity(-9.8f), rotation_speed(1.5f), hp(100) {
+Enemy::Enemy() : speed(10.0f), gravity(-9.8f), rotation_speed(1.2f), hp(100) {
     // Other initialization code if necessary
 }
 
