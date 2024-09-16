@@ -1,6 +1,5 @@
-[gd_scene load_steps=15 format=3 uid="uid://cswxa2vgiomtv"]
+[gd_scene load_steps=16 format=3 uid="uid://cswxa2vgiomtv"]
 
-[ext_resource type="Shader" path="res://main.gdshader" id="1_cq4qn"]
 [ext_resource type="Texture2D" uid="uid://xjytbmd0obuw" path="res://res/crosshair.png" id="2_rtvpw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jsvbc"]
@@ -16,12 +15,6 @@ sky = SubResource("Sky_g3s0f")
 tonemap_mode = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_51cjb"]
-render_priority = 0
-shader = ExtResource("1_cq4qn")
-shader_parameter/grid_color = Vector4(0, 0, 0, 1)
-shader_parameter/grid_size = 20.0
-shader_parameter/cell_size = 1.0
-shader_parameter/line_width = 0.1
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dkh6t"]
 lightmap_size_hint = Vector2i(102, 102)
@@ -31,14 +24,22 @@ size = Vector2(20, 20)
 [sub_resource type="BoxShape3D" id="BoxShape3D_v3u6l"]
 size = Vector3(20, 0.05, 20)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uylno"]
+albedo_color = Color(0.0475577, 0.0475576, 0.0475576, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_1c0rd"]
+material = SubResource("StandardMaterial3D_uylno")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lwc12"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_el8yj"]
 font_size = 25
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y331h"]
+albedo_color = Color(0.051971, 0.051971, 0.051971, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_nokh3"]
+material = SubResource("StandardMaterial3D_y331h")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o2iuf"]
 

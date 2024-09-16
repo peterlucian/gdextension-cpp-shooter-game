@@ -1,9 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dt21wtik647b7"]
+[gd_scene load_steps=3 format=3 uid="uid://dt21wtik647b7"]
 
-[ext_resource type="Material" uid="uid://oiak5hr2106a" path="res://new_standard_material_3d.tres" id="1_mvqol"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_wmee6"]
-material = ExtResource("1_mvqol")
+[sub_resource type="BoxMesh" id="BoxMesh_pggw1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_23jew"]
 
@@ -11,7 +8,7 @@ material = ExtResource("1_mvqol")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_wmee6")
+mesh = SubResource("BoxMesh_pggw1")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
