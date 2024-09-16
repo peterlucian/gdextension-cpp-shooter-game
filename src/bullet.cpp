@@ -81,6 +81,9 @@ void Bullet::_physics_process(double delta)
         if (collider) {
             // Handle the collision, e.g., apply damage or destroy the bullet
             //UtilityFunctions::print("Bullet hit a",collider->get_class());
+            
+            queue_free();
+
             if(collider->get_parent()->is_class("Block")){
                 UtilityFunctions::print("Bullet hit a",collider->get_parent()->get_class());
                 
@@ -90,7 +93,7 @@ void Bullet::_physics_process(double delta)
                     if (get_Bullet_type() == Bullet_Type::Player_bullet && block->get_block_owner() == Block_owner::Enemy_block) {
                         UtilityFunctions::print("Bullet hit a Enemy Block!");
                         // Call the take_damage method on the player
-                        queue_free();
+                        //queue_free();
                         block->take_damage(20); 
                         // Queue free the bullet
                         //queue_free();     
@@ -101,7 +104,7 @@ void Bullet::_physics_process(double delta)
                     if (get_Bullet_type() == Bullet_Type::Enemy_Bullet && block->get_block_owner() == Block_owner::Player_block) {
                         UtilityFunctions::print("Bullet hit a Player Block!");
                         // Call the take_damage method on the player
-                        queue_free();
+                        //queue_free();
                         block->take_damage(20); 
                         // Queue free the bullet
                         //queue_free();     
@@ -115,14 +118,14 @@ void Bullet::_physics_process(double delta)
             //UtilityFunctions::print("Bullet hit a",body->get_class());
             if(collider->is_class("Player") && get_Bullet_type() == Bullet_Type::Enemy_Bullet){
                 Player * player = cast_to<Player>(collider);
-                queue_free();
+                //queue_free();
                 player->take_damage();
                 UtilityFunctions::print("Player took 20 damage.");
             }
 
             if(collider->is_class("Enemy") && get_Bullet_type() == Bullet_Type::Player_bullet){
                 Enemy * enemy = cast_to<Enemy>(collider);
-                queue_free();
+                //queue_free();
                 enemy->take_damage();
                 UtilityFunctions::print("Enemy took 20 damage.");
             }
