@@ -113,16 +113,20 @@ std::vector<Node3D *> &godot::MapLayout::get_level()
 
 void MapLayout::add_new_block(int i, Block_owner owner)
 {   
-    if(level[i] == nullptr){
+    //offset the index i by negative 1 take in account that vector starts at 0, we can't do i -= 1; because 
+    // we also use it to place the cube positions
+    if(level[i - 1] == nullptr){
         Node3D * new_block = spawn();
-        new_block->set_global_position(Vector3(floor((i % 20) - 1), 0.5f, floor(i/20)));
+        new_block->set_global_position(Vector3(round((i % 20) - 1), 0.5f, round(i/20)));
+        UtilityFunctions::print("current level i", i);
         UtilityFunctions::print("player pos x map", round((i % 20) - 1), "plyare pos z map", round(i/20));
         new_block->add_to_group("Blocks");
         cast_to<Block>(new_block)->set_block_owner(owner);
         add_child(new_block);
-        level[i] = new_block;
+        level[i - 1] = new_block;
         //UtilityFunctions::print("vector at i", level[i]);
         if(owner == Block_owner::Player_block){
+            i -= 1;
             if(level[i+1]!= nullptr && cast_to<Block>(level[i+1])->get_block_owner() == Block_owner::Enemy_block){
                 level[i+1]->queue_free();
                 level[i+1] = nullptr;
@@ -142,6 +146,7 @@ void MapLayout::add_new_block(int i, Block_owner owner)
         }
 
         if(owner == Block_owner::Enemy_block){
+            i -= 1;
             if(level[i+1]!= nullptr && cast_to<Block>(level[i+1])->get_block_owner() == Block_owner::Player_block){
                 level[i+1]->queue_free();
                 level[i+1] = nullptr;
